@@ -1,7 +1,5 @@
 import dotenv from "dotenv";
 import express from "express";
-import path from "path";
-import { Observable } from "rxjs";
 
 // initialize configuration
 dotenv.config();
@@ -12,28 +10,8 @@ const port = process.env.SERVER_PORT;
 
 const app = express();
 
-const foo = new Observable((subscriber) => {
-  subscriber.next("Hello,");
-  subscriber.next("My name is...");
-  subscriber.next("Linus :)");
-  subscriber.complete();
-});
-
-foo.subscribe({
-  next: (x) => {
-    console.log(x);
-  },
-  // tslint:disable-next-line:object-literal-sort-keys
-  error: (err) => {
-    console.log("Error : " + err);
-  },
-  complete: () => {
-    console.log("Done...");
-  },
-});
-
 app.get("/", (req, res) => {
-  res.send("Hello Dariya and Stanislaw and Oleg, and Lyda");
+  res.send("Hello Dariya and Stanislaw and Oleg, and Lyda and Mariana");
 });
 
 // @ts-ignore
