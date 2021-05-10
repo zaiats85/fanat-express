@@ -32,7 +32,7 @@ describe("routes", () => {
   });
 
   test("an empty string", async () => {
-    const response = await request(router).get("/api/v1/search?q=");
+    const response = await request(router).get("/api/v1/search?q=f");
     expect(response.status).toEqual(200);
   });
 });

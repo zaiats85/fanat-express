@@ -3,11 +3,7 @@ export abstract class HTTPClientError extends Error {
   public readonly name!: string;
 
   protected constructor(message: object | string) {
-    if (message instanceof Object) {
-      super(JSON.stringify(message));
-    } else {
-      super(message);
-    }
+    super(JSON.stringify(message));
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
   }

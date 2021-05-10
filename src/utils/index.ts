@@ -4,7 +4,7 @@ type Wrapper = ((router: Router) => void);
 
 export const applyMiddleware = (
     middlewareWrappers: Wrapper[],
-    router: Router
+    router: Router,
 ) => {
   for (const wrapper of middlewareWrappers) {
     wrapper(router);
