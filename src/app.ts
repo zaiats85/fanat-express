@@ -1,5 +1,19 @@
 import dotenv from "dotenv";
 import express from "express";
+import http from "http";
+import middleware from "./middleware";
+import routes from "./services";
+import { applyMiddleware, applyRoutes } from "./utils";
+
+process.on("uncaughtException", (e) => {
+  console.log(e);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (e) => {
+  console.log(e);
+  process.exit(1);
+});
 
 // initialize configuration
 dotenv.config();
@@ -8,16 +22,16 @@ dotenv.config();
 // as if it were an environment variable
 const port = process.env.SERVER_PORT;
 
-const app = express();
+const router = express();
+applyMiddleware(middleware, router);
+applyRoutes(routes, router);
 
-app.get("/", (req, res) => {
-  res.send("Hello Dariya and Stanislaw and Oleg, and Lyda and Mariana");
-});
+const server = http.createServer(router);
 
 // @ts-ignore
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) {
     return console.error(err);
   }
-  return console.log(`server is listening on ${port}`);
+  return console.log(`Server is listening on ${port}`);
 });
