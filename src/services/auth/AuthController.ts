@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import dotenv from 'dotenv';
-import randtoken from 'rand-token';
-import { HTTP400Error, HTTP401Error } from '../../utils/httpErrors';
+import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import randtoken from "rand-token";
+import { HTTP400Error, HTTP401Error } from "../../utils/httpErrors";
 
 dotenv.config();
 
@@ -16,13 +16,13 @@ export const registerNewUser = (email: string, password: string) => {
     throw new HTTP400Error();
   }
 
-  let hash_password = bcrypt.hashSync(password, 8);
-  let refreshToken = randtoken.uid(256);
-  let id = getId();
-  users.set(email, { hash_password, id, refreshToken });
+  const hashPassword = bcrypt.hashSync(password, 8);
+  const refreshToken = randtoken.uid(256);
+  getId();
+  users.set(email, { hashPassword, id, refreshToken });
 
   const accessToken = jwt.sign({ sub: id }, JWT_SECRET, {
-    algorithm: 'HS256',
+    algorithm: "HS256",
     expiresIn: 300,
   });
 
@@ -34,25 +34,25 @@ export const authenticate = (email: string, password: string) => {
     throw new HTTP400Error();
   }
 
-  let user = users.get(email);
+  const user = users.get(email);
 
   if (!user || !bcrypt.compareSync(password, user.hash_password)) {
     throw new HTTP401Error();
   }
 
   const accessToken = jwt.sign({ sub: user.id }, JWT_SECRET, {
-    algorithm: 'HS256',
+    algorithm: "HS256",
     expiresIn: 300,
   });
 
-  let { refreshToken } = user;
+  const { refreshToken } = user;
 
   return { accessToken, refreshToken };
 };
 
 export const generateAccessToken = (refreshToken: string) => {
-  let user = Array.from(users.values()).find(
-    (it) => it.refreshToken == refreshToken,
+  const user = Array.from(users.values()).find(
+      (it) => it.refreshToken === refreshToken,
   );
 
   if (!user) {
@@ -60,7 +60,7 @@ export const generateAccessToken = (refreshToken: string) => {
   }
 
   const accessToken = jwt.sign({ sub: user.id }, JWT_SECRET, {
-    algorithm: 'HS256',
+    algorithm: "HS256",
     expiresIn: 300,
   });
 
