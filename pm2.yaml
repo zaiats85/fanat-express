@@ -1,4 +1,5 @@
 apps:
-  - script: ./dist/server.js
-    instances: max
+  - script: ./dist/app.js
+    name: 'api-fanat'
+    instances: 4
     exec_mode: cluster

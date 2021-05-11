@@ -3,18 +3,25 @@ import express from "express";
 import "express-async-errors";
 import http from "http";
 import { initDependencies } from "./config";
+import { logger } from "./config/logger";
 import middleware from "./middleware";
 import errorHandlers from "./middleware/errorHandlers";
 import routes from "./services";
 import { applyMiddleware, applyRoutes } from "./utils";
 
 process.on("uncaughtException", (e) => {
-  console.log(e);
+  logger.error({
+    extra: e,
+    message: `uncaughtException`,
+  });
   process.exit(1);
 });
 
 process.on("unhandledRejection", (e) => {
-  console.log(e);
+  logger.error({
+    extra: e,
+    message: `unhandledRejection`,
+  });
   process.exit(1);
 });
 
@@ -26,8 +33,7 @@ applyMiddleware(middleware, router);
 applyRoutes(routes, router);
 applyMiddleware(errorHandlers, router);
 
-// port is now available to the Node.js runtime
-// as if it were an environment variable
+// port is available to the Node.js runtime
 const port = process.env.SERVER_PORT;
 const server = http.createServer(router);
 

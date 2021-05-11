@@ -18,12 +18,16 @@ export default [
     handler: [
       async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        const { accessToken, refreshToken } = registerNewUser(email, password);
+
+        const { accessToken, refreshToken } = await registerNewUser(
+            email,
+            password,
+        );
 
         res
-          .cookie("refreshToken", refreshToken, options)
-          .status(200)
-          .send({ auth: true, accessToken });
+            .cookie("refreshToken", refreshToken, options)
+            .status(200)
+            .send({ auth: true, accessToken });
       },
     ],
     method: "post",
@@ -33,12 +37,12 @@ export default [
     handler: [
       async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        const { accessToken, refreshToken } = authenticate(email, password);
+        const { accessToken, refreshToken } = await authenticate(email, password);
 
         res
-          .cookie("refreshToken", refreshToken, options)
-          .status(200)
-          .send({ auth: true, accessToken });
+            .cookie("refreshToken", refreshToken, options)
+            .status(200)
+            .send({ auth: true, accessToken });
       },
     ],
     method: "post",
@@ -79,5 +83,30 @@ export default [
     ],
     method: "get",
     path: "/",
+  },
+  {
+    handler: [
+      (req: Request, res: Response) => {
+      console.log("wdcwdcwd");
+      res.status(200).send(`
+          <h1>Login</h1>
+          <form action="/api/v1/signin" method="POST">
+              <div style="margin-bottom: 10px">
+                <label for="email">Your email:</label>
+                <input id="email" name="email" type="text" />
+              </div>
+              <div style="margin-bottom: 10px">
+                <label for="password">Your password:</label>
+                <input id="password" name="password" type="password" />
+              </div>
+
+              <input type="hidden" name="_csrf" value="${req.csrfToken()}" />
+              <input type="submit" value="Submit" />
+          </form>
+        `);
+      },
+    ],
+    method: "get",
+    path: "/login",
   },
 ];

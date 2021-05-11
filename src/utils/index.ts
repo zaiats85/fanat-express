@@ -2,6 +2,18 @@ import { NextFunction, Request, Response, Router } from "express";
 
 type Wrapper = ((router: Router) => void);
 
+type Handler = (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => Promise<void> | void;
+
+interface IRoute {
+  path: string;
+  method: string;
+  handler: Handler | Handler[];
+}
+
 export const applyMiddleware = (
     middlewareWrappers: Wrapper[],
     router: Router,
@@ -11,19 +23,7 @@ export const applyMiddleware = (
   }
 };
 
-type Handler = (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => Promise<void> | void;
-
-type Route = {
-  path: string;
-  method: string;
-  handler: Handler | Handler[];
-};
-
-export const applyRoutes = (routes: Route[], router: Router) => {
+export const applyRoutes = (routes: IRoute[], router: Router) => {
   for (const route of routes) {
     const { method, path, handler } = route;
     (router as any)[method](path, handler);
