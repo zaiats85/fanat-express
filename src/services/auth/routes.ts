@@ -14,11 +14,11 @@ const options = {
 };
 
 export default [
+  /* SIGN UP */
   {
     handler: [
       async (req: Request, res: Response) => {
         const { email, password } = req.body;
-
         const { accessToken, refreshToken } = await registerNewUser(
             email,
             password,
@@ -33,6 +33,7 @@ export default [
     method: "post",
     path: "/api/v1/signup",
   },
+  /* SIGN IN */
   {
     handler: [
       async (req: Request, res: Response) => {
@@ -48,6 +49,7 @@ export default [
     method: "post",
     path: "/api/v1/signin",
   },
+  /* REFRESH TOKEN */
   {
     handler: [
       async (req: Request, res: Response) => {
@@ -60,11 +62,12 @@ export default [
     method: "get",
     path: "/api/v1/refresh/token",
   },
+  /* CREATE NEW USER */
   {
     handler: [
       (req: Request, res: Response) => {
         res.status(200).send(`
-          <h1>Create new user</h1>
+          <h1>new User</h1>
           <form action="/api/v1/signup" method="POST">
               <div style="margin-bottom: 10px">
                 <label for="email">Your email:</label>
@@ -74,7 +77,14 @@ export default [
                 <label for="password">Your password:</label>
                 <input id="password" name="password" type="password" />
               </div>
-
+              <div style="margin-bottom: 10px">
+                <span>
+                    <a href="/login"
+                       style="text-decoration: none">
+                       Already registered?
+                    </a>
+                </span>
+              </div>
               <input type="hidden" name="_csrf" value="${req.csrfToken()}" />
               <input type="submit" value="Submit" />
           </form>
@@ -84,11 +94,11 @@ export default [
     method: "get",
     path: "/",
   },
+  /* LOGIN */
   {
     handler: [
       (req: Request, res: Response) => {
-      console.log("wdcwdcwd");
-      res.status(200).send(`
+        res.status(200).send(`
           <h1>Login</h1>
           <form action="/api/v1/signin" method="POST">
               <div style="margin-bottom: 10px">
@@ -99,7 +109,14 @@ export default [
                 <label for="password">Your password:</label>
                 <input id="password" name="password" type="password" />
               </div>
-
+              <div style="margin-bottom: 10px">
+                   <span>
+                        <a href="/"
+                            style="text-decoration: none">
+                            Don't have an account yet?
+                        </a>
+                   </span>
+              </div>
               <input type="hidden" name="_csrf" value="${req.csrfToken()}" />
               <input type="submit" value="Submit" />
           </form>

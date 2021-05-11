@@ -6,7 +6,7 @@ const initDependencies = async () => {
   await Promise.all([
         initRedis(),
         initPostgres(),
-        initRabbitMQ(),
+        // initRabbitMQ(),
       ],
   );
 };

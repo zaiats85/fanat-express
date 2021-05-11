@@ -4,14 +4,30 @@ import { logger } from "./logger";
 
 dotenv.config();
 
-const { DATABASE_URL } = process.env;
+const {
+  PGUSER: user,
+  PGPASSWORD: password,
+  PGHOST: host,
+  PGDATABASE: database,
+  PGPORT: port,
+} = process.env;
 
+// @TODO Man in the middle
 const dbClient = new Client({
+  database,
+  host,
+  password,
+  port: Number(port),
+  ssl: false,
+  user,
+});
+
+/*const dbClient = new Client({
   connectionString: DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
   },
-});
+});*/
 
 dbClient.on("error", (err: Error) => {
   logger.info({

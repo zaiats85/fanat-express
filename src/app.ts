@@ -40,6 +40,13 @@ const server = http.createServer(router);
 async function start() {
   await initDependencies();
 
+/*
+  try {
+  } catch (e) {
+    console.error(e.message);
+  }
+*/
+
   // @ts-ignore
   server.listen(port, (err) => {
     if (err) {

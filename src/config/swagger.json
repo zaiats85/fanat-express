@@ -11,7 +11,7 @@
     "/search": {
       "get": {
         "tags": ["Search Text"],
-        "summary": "Search by places using opencagedata service",
+        "summary": "Search by places using postgres service",
         "responses": {
           "200": {
             "description": "OK"
@@ -30,6 +30,50 @@
             "description": "Specifies the query string",
             "required": true,
             "type": "string"
+          }
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Login Credentials"],
+        "summary": "Log into account",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "content": {
+          "application/json": {}
+        },
+        "parameters": [
+          {
+
+          }
+        ]
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": ["Credentials"],
+        "summary": "Create an account",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "content": {
+          "application/json": {}
+        },
+        "parameters": [
+          {
+
           }
         ]
       }
